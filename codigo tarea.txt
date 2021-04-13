@@ -1,0 +1,99 @@
+import pandas as pd
+import numpy as np
+import datetime as dt
+import matplotlib.pyplot as plt
+
+fronteras = pd.read_csv('fronteras.csv', sep = ',')
+fronteras.head()
+
+fronteras["Date"] = pd.to_datetime(fronteras["Date"])
+condicion = df["Date"].dt.strftime("%Y")>="2018"
+
+
+1.- Grafica de linea para cada estado por año que muestres como ha crecido o decrecido los Personal Vehicles a lo largo del tiempo
+
+df = fronteras[fronteras["Border"]=="US-Mexico Border"]
+
+df2 = df[['Port Name','State','Measure','Value', 'Date']]
+
+az = df2[condicion & (df2["State"]=="AZ") & (df2["Measure"]=="Personal Vehicles")]
+ca = df2[condicion &(df2["State"]=="CA") & (df2["Measure"]=="Personal Vehicles")] 
+nm = df2[condicion &(df2["State"]=="NM") & (df2["Measure"]=="Personal Vehicles")]
+tx = df2[condicion &(df2["State"]=="TX") & (df2["Measure"]=="Personal Vehicles")]
+
+plt.plot(ca.Date,ca.Value/100)
+plt.plot(tx.Date,tx.Value/100)
+plt.plot(az.Date,az.Value/100)
+plt.plot(nm.Date,nm.Value/100)
+plt.title('Personal Vehicles por estado a traves de los años')
+plt.legend(['California','Texas','Arizona','Nuevo Mexico'])
+plt.xticks(rotation = 270)
+plt.grid()
+plt.savefig('Grafica Ejercicio 1',bbox_inches="tight")
+
+2. Elaborar una grafica de Pedeestrians que muestre su comportamiento a traves del tiempo con detalle de puertas
+
+az2 = df2[condicion & (df2["State"]=="AZ") & (df2["Measure"]=="Pedestrians")]
+ca2 = df2[condicion & (df2["State"]=="CA") & (df2["Measure"]=="Pedestrians")]
+nm2 = df2[condicion & (df2["State"]=="NM") & (df2["Measure"]=="Pedestrians")]
+tx2 = df2[condicion & (df2["State"]=="TX") & (df2["Measure"]=="Pedestrians")]
+
+plt.scatter(ca2.Date,ca2.Value/100)
+plt.scatter(tx2.Date,tx2.Value/100)
+plt.scatter(az2.Date,az2.Value/100)
+plt.scatter(nm2.Date,nm2.Value/100)
+plt.xticks(rotation = 270)
+plt.title('Pedestrians por estado a traves de los años')
+plt.legend(['California','Texas','Arizona','Nuevo Mexico'])
+plt.grid()
+plt.savefig('Grafica Ejercicio 2',bbox_inches="tight")
+
+3.- Graficar mediante barras verticales la cantidad de personal vehicles y personal vehicles passengers
+
+az3 = df2[condicion & (df2["State"]=="AZ") & (df2["Measure"]=="Personal Vehicle Passengers")]
+ca3 = df2[condicion &(df2["State"]=="CA") & (df2["Measure"]=="Personal Vehicle Passengers")] 
+nm3 = df2[condicion &(df2["State"]=="NM") & (df2["Measure"]=="Personal Vehicle Passengers")]
+tx3 = df2[condicion &(df2["State"]=="TX") & (df2["Measure"]=="Personal Vehicle Passengers")]
+
+el ca3,az3,tx,3,nm3 que son los pasajeros se divide entre 10 para mostrar cuantos pasajeros entraban por cada 10 coches
+
+plt.bar(ca.Date,ca.Value)
+plt.bar(ca3.Date,ca3.Value/10)
+plt.xticks(rotation = 270)
+plt.title('California a traves de los años')
+plt.legend(['Personal Vehicles','Personal Vehicle Passegers'])
+plt.savefig('Grafica Ejercicio California 3',bbox_inches="tight")
+
+plt.bar(az.Date,az.Value)
+plt.bar(az3.Date,az.Value/10)
+plt.xticks(rotation = 270)
+plt.title('Arizona a traves de los años')
+plt.legend(['Personal Vehicles','Personal Vehicle Passegers'])
+plt.show()
+plt.savefig('Grafica Ejercicio Arizona 3',bbox_inches="tight")
+
+plt.bar(nm.Date,nm.Value)
+plt.bar(nm3.Date,nm.Value/10)
+plt.xticks(rotation = 270)
+plt.title('Nuevo Mexico a traves de los años')
+plt.legend(['Personal Vehicles','Personal Vehicle Passegers'])
+plt.show()
+plt.savefig('Grafica Ejercicio Nuevo Mexico  3',bbox_inches="tight")
+
+plt.bar(tx.Date,tx.Value)
+plt.bar(tx3.Date,tx.Value/10)
+plt.xticks(rotation = 270)
+plt.title('Texas a traves de los años')
+plt.legend(['Personal Vehicles','Personal Vehicle Passegers'])
+plt.show()
+plt.savefig('Grafica Ejercicio Texas 3',bbox_inches="tight")
+
+4.- Histograma de los Bus Passengers para todos los estados por años
+
+hist = df2[df2["Measure"]=="Bus Passengers"]
+
+hist['Value'].plot.hist()
+plt.title('Histograma de los pasajeros de autobus de todos los años')
+plt.savefig('Grafica Ejercicio 4',bbox_inches="tight")
+plt.grid()
+
